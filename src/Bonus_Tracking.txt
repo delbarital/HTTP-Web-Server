@@ -1,0 +1,2 @@
+A list of things we added to the server.
+1. Advanced scans to deteced unautorized chatacters in the config.ini file.
