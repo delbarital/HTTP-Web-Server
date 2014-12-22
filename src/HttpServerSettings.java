@@ -19,7 +19,6 @@ public class HttpServerSettings {
 
 	public HttpServerSettings(int port, String root, String defaultPage,
 			int maxThreads) {
-		super();
 
 		if (!Security.checkPortNumer(port)) {
 			throw new IllegalArgumentException("Error! Bad port number");
