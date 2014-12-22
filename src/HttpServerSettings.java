@@ -8,6 +8,9 @@
  * 
  */
 public class HttpServerSettings {
+
+	static final int THREADS_LIMIT = 30;
+
 	private int port = -1;
 	private String root = null;
 	// TODO: add the option for more default pages
@@ -33,10 +36,10 @@ public class HttpServerSettings {
 		}
 		this.defaultPage = defaultPage;
 
-		// 0 means it has no limit
-		if (maxThreads < 0) {
+		if (!Security.checkMaxThreads(maxThreads, THREADS_LIMIT)) {
 			throw new IllegalArgumentException(
-					"Error! Bad max threads value. It must be a none negative value.");
+					"Error! Bad max threads value. It must be a positive value under "
+							+ THREADS_LIMIT);
 		}
 		this.maxThreads = maxThreads;
 	}
