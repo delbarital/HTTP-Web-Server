@@ -3,7 +3,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.Character.Subset;
 import java.nio.file.AccessDeniedException;
 
 /**
@@ -15,19 +14,43 @@ import java.nio.file.AccessDeniedException;
  */
 public class ConfigFileReader {
 
-	private int port;
+	private int port = -1;
 	private String root = null;
 	private String defaultPage = null;
-	private int maxThreads;
+	private int maxThreads = -1;
 
 	private File configFile = null;
 	private FileReader fileReader = null;
-	private BufferedReader br = null;
+	private BufferedReader bufferReader = null;
+
+	// Getters
+	public int getPort() {
+		return port;
+	}
+
+	public String getRoot() {
+		return root;
+	}
+
+	public String getDefaultPage() {
+		return defaultPage;
+	}
+
+	public int getMaxThreads() {
+		return maxThreads;
+	}
+
+	/*
+	 * Returns a HttpServerSettings object containing the read values
+	 */
+	public HttpServerSettings getHttpServerSettings() {
+		return new HttpServerSettings(this.port, this.root, this.defaultPage,
+				this.maxThreads);
+	}
 
 	// Constructor
 	public ConfigFileReader(String settingsFilePath)
-			throws IllegalArgumentException, AccessDeniedException,
-			FileNotFoundException {
+			throws IllegalArgumentException, IOException {
 		super();
 		if (!Security.checkSettingsFilePath(settingsFilePath)) {
 			throw new IllegalArgumentException("Error! Bad settings file path!");
@@ -40,11 +63,11 @@ public class ConfigFileReader {
 					"Error! Could not access config file.");
 		}
 		fileReader = new FileReader(configFile);
-		if (!Security.scanConfigFile(br)) {
+		if (!Security.scanConfigFile(bufferReader)) {
 			throw new SecurityException(
 					"Error! The config file is corrupted and not following the right config file structure!");
 		}
-		br = new BufferedReader(fileReader);
+		bufferReader = new BufferedReader(fileReader);
 
 		parseFile();
 	}
@@ -55,7 +78,7 @@ public class ConfigFileReader {
 		String attributeValue = null;
 		int equalsSignIndex;
 		for (int i = 0; i < 4; i++) {
-			line = br.readLine();
+			line = bufferReader.readLine();
 			equalsSignIndex = line.indexOf("=");
 			// Parses the config line to an attribute and a value. Turn the
 			// attribute to lower cases and trim both of the strings to remove
@@ -65,7 +88,7 @@ public class ConfigFileReader {
 			// Remember not to turn the value to lower cases. Filenames and
 			// paths are case sensitive.
 			attributeValue = line.substring(equalsSignIndex + 1).trim();
-			
+
 			switch (attribute) {
 			case "port":
 				this.port = Integer.parseInt(attributeValue);
@@ -78,12 +101,18 @@ public class ConfigFileReader {
 				break;
 			case "maxthreads":
 				this.maxThreads = Integer.parseInt(attributeValue);
-
-			default:
 				break;
+			default:
+				throw new SecurityException(
+						"Error! The config file is corrupted and not following the right config file structure!");
 			}
 		}
 
+		// Making sure that all the values has been read.
+		if (this.port == -1 || this.root == null || this.defaultPage == null
+				|| this.maxThreads == -1) {
+			throw new SecurityException(
+					"Error! The config file is corrupted and not following the right config file structure!");
+		}
 	}
-
 }
