@@ -106,4 +106,11 @@ public class Security {
 		// TODO: Implement this check
 		return true;
 	}
+
+	public static boolean checkMaxThreads(int maxThreads, int threadsLimit) {
+		if (maxThreads > threadsLimit || maxThreads < 1) {
+			return false;
+		}
+		return true;
+	}
 }
