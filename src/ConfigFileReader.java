@@ -17,7 +17,7 @@ public class ConfigFileReader {
 	private int port = -1;
 	private String root = null;
 	private String defaultPage = null;
-	private int maxThreads = -1; 
+	private int maxThreads = -1;
 
 	private File configFile = null;
 	private FileReader fileReader = null;
@@ -51,7 +51,6 @@ public class ConfigFileReader {
 	// Constructor
 	public ConfigFileReader(String settingsFilePath)
 			throws IllegalArgumentException, IOException {
-		super();
 		if (!Security.checkSettingsFilePath(settingsFilePath)) {
 			throw new IllegalArgumentException("Error! Bad settings file path!");
 		}
