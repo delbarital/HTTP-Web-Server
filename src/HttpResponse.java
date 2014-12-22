@@ -29,7 +29,7 @@ public class HttpResponse {
 
 	// The response code number and the response explanation string.
 	private int responseCode;
-	private String responseString = null;
+	private String responseMessageString = null;
 
 	/**
 	 * Check if the responseNum is a known HTTP response code. If it is not,
@@ -39,7 +39,7 @@ public class HttpResponse {
 	 * @throws IllegalArgumentException
 	 */
 	public HttpResponse(int responseCode) throws IllegalArgumentException {
-		// Check if the repsponseNumber is legit, if not, throws
+		// Check if the repsponseNumber is legal, if not, throws
 		// IllegalArgumentException
 		if (!Security.checkResponseCode(responseCode)) {
 			throw new IllegalArgumentException("Bad HTTP response number.");
@@ -48,13 +48,13 @@ public class HttpResponse {
 		// If the exact code is known
 		if (RESPONSES.containsKey(new Integer(responseCode))) {
 			this.responseCode = responseCode;
-			this.responseString = (String) RESPONSES.get(new Integer(
+			this.responseMessageString = (String) RESPONSES.get(new Integer(
 					responseCode));
 		} else {
 			// If the exact code is unknown, set the class code of this code.
 			responseCode = getResponseCodeClass(responseCode);
 			this.responseCode = responseCode;
-			this.responseString = (String) RESPONSES.get(new Integer(responseCode));
+			this.responseMessageString = (String) RESPONSES.get(new Integer(responseCode));
 		}
 	}
 
@@ -64,12 +64,12 @@ public class HttpResponse {
 		return this.responseCode;
 	}
 	
-	public String getResponseString() {
-		return this.responseString;
+	public String getResponseMessageString() {
+		return this.responseMessageString;
 	}
 	
 	public String toString() {
-		return this.responseCode + " " + this.responseString;
+		return this.responseCode + " " + this.responseMessageString;
 	}
 	
 	// Private functions
