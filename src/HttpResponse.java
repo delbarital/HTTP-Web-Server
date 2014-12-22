@@ -16,9 +16,9 @@ public class HttpResponse {
 	private final static String HTTP_RESPONSE_501 = "Not Implemented";
 
 	// HTTP responses static Hash Table
-	private static final Hashtable RESPONSES;
+	private static final Hashtable<Integer, String> RESPONSES;
 	static {
-		RESPONSES = new Hashtable();
+		RESPONSES = new Hashtable<Integer, String>();
 		RESPONSES.put(new Integer(200), HTTP_RESPONSE_200);
 		RESPONSES.put(new Integer(400), HTTP_RESPONSE_400);
 		RESPONSES.put(new Integer(404), HTTP_RESPONSE_404);
