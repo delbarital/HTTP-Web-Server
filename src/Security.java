@@ -1,0 +1,110 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+/**
+ * 
+ * This security class is used to check if some parameter values are aligned
+ * with the HTTP. This class enforces the rules for HTTP/1.0 and not HTTP/1.1
+ * that has minor differences.
+ * 
+ * @author Tal Delbari
+ * 
+ */
+public class Security {
+
+	/**
+	 * Check if the response code number is according to the RFC, as described
+	 * here http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html . The
+	 * function receives a responseNumber and check if it is legal. If it is,
+	 * return true, if not, return false.
+	 * 
+	 * @param reponseNumber
+	 */
+	public static boolean checkResponseCode(int reponseNumber) {
+		// Note that HTTP/1.0 does not allow 1XX response codes
+		if (reponseNumber < 200) {
+			return false;
+		}
+		// The highest response code number which is described at the RFC is
+		// 505.
+		if (reponseNumber > 505) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check the given port number
+	 * 
+	 * @param port
+	 * @return true if the port is in the legal range and false otherwise.
+	 */
+	public static boolean checkPortNumer(int port) {
+		if (port < 0 || port > 65536) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean checkRootDirectoryPath(String root) {
+		// TODO implement a security check for the root path.
+		return true;
+	}
+
+	public static boolean checkDefaultPage(String defaultPage) {
+		// If the default page is void or null return false.
+		if (defaultPage.equals("") || defaultPage == null) {
+			return false;
+		}
+		
+		// if the filename contains two dots (".") return false.
+		if (defaultPage.indexOf(".") != defaultPage.lastIndexOf(".")) {
+			return false;
+		}
+
+		// search for illegal chars in the filename.
+		char currentChar;
+		for (int i = 0, length = defaultPage.length(); i < length; i++) {
+			currentChar = defaultPage.charAt(i);
+			if (currentChar > 122) {
+				return false;
+			}
+			if (currentChar < 32) {
+				return false;
+			}
+			if (currentChar > 32 && currentChar < 46) {
+				return false;
+			}
+			if (currentChar == 47) {
+				return false;
+			}
+
+			// TODO: Change those checks to positive checks. It's more likely
+			// that the chars will be at the legal range
+		}
+
+		// Check if the file extension is longer than it should be
+		int fileExtensionIndex = defaultPage.indexOf(".");
+		String fileExtension = defaultPage.substring(fileExtensionIndex);
+		if (fileExtension.length() > 4) {
+			return false;
+		}
+		// Check if the file extension length is zero, meaning the filename ends
+		// with a dot.
+		if (fileExtension.length() == 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public static boolean checkSettingsFilePath(String settingsFile) {
+		// TODO: Implement this check
+		return true;
+	}
+
+	public static boolean scanConfigFile(BufferedReader br) {
+		// TODO: Implement this check
+		return true;
+	}
+}
