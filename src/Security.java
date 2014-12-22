@@ -3,8 +3,7 @@ import java.io.BufferedReader;
 /**
  * 
  * This security class is used to check if some parameter values are aligned
- * with the HTTP. This class enforces the rules for HTTP/1.0 and not HTTP/1.1
- * that has minor differences.
+ * with the HTTP.
  * 
  * @author Tal Delbari
  * 
@@ -20,7 +19,8 @@ public class Security {
 	 * @param reponseNumber
 	 */
 	public static boolean checkResponseCode(int reponseNumber) {
-		// Note that HTTP/1.0 does not allow 1XX response codes
+		// Note that HTTP/1.0 does not allow 1XX response codes, and as it is
+		// not mandatory we not allow it.
 		if (reponseNumber < 200) {
 			return false;
 		}
@@ -55,7 +55,7 @@ public class Security {
 		if (defaultPage.equals("") || defaultPage == null) {
 			return false;
 		}
-		
+
 		// if the filename contains two dots (".") return false.
 		if (defaultPage.indexOf(".") != defaultPage.lastIndexOf(".")) {
 			return false;
