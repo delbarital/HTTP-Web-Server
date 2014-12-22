@@ -1,13 +1,13 @@
 import java.util.Hashtable;
 
 /**
- * Represent HTTP response according to RFC 2616 (HTTP/1.1) Chapter 10 (Status
+ * Represent HTTP response code according to RFC 2616 (HTTP/1.1) Chapter 10 (Status
  * Code Definitions).
  * 
  * @author Tal Delbari
  * 
  */
-public class HttpResponse {
+public class HttpResponseCode {
 	// HTTP responses strings
 	private final static String HTTP_RESPONSE_200 = "OK";
 	private final static String HTTP_RESPONSE_400 = "Bad Request";
@@ -38,7 +38,7 @@ public class HttpResponse {
 	 * @param responseCode
 	 * @throws IllegalArgumentException
 	 */
-	public HttpResponse(int responseCode) throws IllegalArgumentException {
+	public HttpResponseCode(int responseCode) throws IllegalArgumentException {
 		// Check if the repsponseNumber is legal, if not, throws
 		// IllegalArgumentException
 		if (!Security.checkResponseCode(responseCode)) {
