@@ -8,11 +8,11 @@
  * 
  */
 public class HttpServerSettings {
-	private int port;
+	private int port = -1;
 	private String root = null;
 	// TODO: add the option for more default pages
 	private String defaultPage = null;
-	private int maxThreads;
+	private int maxThreads = -1;
 
 	public HttpServerSettings(int port, String root, String defaultPage,
 			int maxThreads) {
@@ -40,35 +40,35 @@ public class HttpServerSettings {
 		}
 		this.maxThreads = maxThreads;
 	}
-	
+
 	// getters
 	public int getPort() {
 		return this.port;
 	}
-	
+
 	public String getRoot() {
 		return this.root;
 	}
-	
+
 	public String getDefaultPage() {
 		return this.defaultPage;
 	}
-	
+
 	public int getMaxThreads() {
 		return this.maxThreads;
 	}
-	
+
 	/*
-	 * Returns a string with the server's settings.  
+	 * Returns a string with the server's settings.
 	 */
 	public String toString() {
 		String sPort = "Port: " + port + "\n";
 		String sRoot = "Root: " + root + "\n";
 		String sDefaultPage = "Default Page: " + defaultPage + "\n";
 		String sMaxThreads = "Max Threads: " + maxThreads + "\n";
-		
+
 		return sPort + sRoot + sDefaultPage + sMaxThreads;
-		
+
 	}
-	
+
 }
