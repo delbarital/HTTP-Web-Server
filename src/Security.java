@@ -116,18 +116,26 @@ public class Security {
 
 	public static boolean checkUrl(String url) {
 
-		// protect the server against CRLF injection attack as described here
-		// http://www.acunetix.com/websitesecurity/crlf-injection/
-		String CRLF = "\r\n";
-		if (url.contains(CRLF)) {
-			return false;
-		}
-
 		// Block attempts to surf outside of the root directory
 		// TODO: This check can be done better. If we'll have time we should let
 		// the URL contain ".." and return false only if it's really out of the
 		// root directory.
 		if (url.contains("..")) {
+			return false;
+		}
+		return true;
+	}
+
+	/*
+	 * This function returns false if there is a risk for an CRLF injection
+	 * attack in the given string. For more information visit the link
+	 * http://www.acunetix.com/websitesecurity/crlf-injection/
+	 */
+	public static boolean checkCRLFInjection(String str) {
+		String CRLF = "\r\n";
+		// If the given string contains CRLF sequence, and not at its end,
+		// return false.
+		if (str.substring(0, str.length() - 1).equals(CRLF)) {
 			return false;
 		}
 		return true;
