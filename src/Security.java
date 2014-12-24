@@ -117,12 +117,24 @@ public class Security {
 	public static boolean checkUrl(String url) {
 
 		// Block attempts to surf outside of the root directory
-		// TODO: This check can be done better. If we'll have time we should let
-		// the URL contain ".." and return false only if it's really out of the
-		// root directory.
+		/*
+		 * TODO: This check can be done better. If we'll have time we should let
+		 * the URL contain ".." and return false only if it's really out of the
+		 * root directory.
+		 * Also, it would be good to check for other encodes of the double dots.
+		 */
+
 		if (url.contains("..")) {
 			return false;
 		}
+
+		// We add two spaces to the end of the URL because the
+		// checkCRLFInjection ignore the last two characters. As URL should not
+		// contain CRLF at all, we should add a padding of two spaces.
+		if (!checkCRLFInjection(url + "  ")) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -135,7 +147,7 @@ public class Security {
 		String CRLF = "\r\n";
 		// If the given string contains CRLF sequence, and not at its end,
 		// return false.
-		if (str.substring(0, str.length() - 1).equals(CRLF)) {
+		if (str.substring(0, str.length() - 2).equals(CRLF)) {
 			return false;
 		}
 		return true;
