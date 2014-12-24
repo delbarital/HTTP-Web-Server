@@ -1,10 +1,5 @@
 import java.util.HashMap;
 
-import sun.security.util.Length;
-
-import com.sun.org.apache.regexp.internal.recompile;
-import com.sun.swing.internal.plaf.metal.resources.metal;
-
 /**
  * Represent a HTTP request from the client to this web server as described in
  * the RFC https://www.ietf.org/rfc/rfc2616.txt
@@ -14,8 +9,12 @@ public class HttpRequest {
 
 	// Request fields
 	private HashMap<String, String> headers;
-	// HTTP Method: HTTP/1.1 or HTTP/1.0
+	// HTTP Method: (GET\POST\OPTIONS\HEAD\TRACE)
 	private String httpMethod;
+	// The URL string
+	private String url;
+	// HTTP version: (HTTP/1.0, HTTP/1.1)
+	private String httpVersion;
 
 	// Constructor
 	public HttpRequest(String[] rawRequest) {
@@ -47,32 +46,44 @@ public class HttpRequest {
 		// split the first line (without the CRLF at the end) to three parts,
 		// The method, the URL and the HTTP version
 		String[] values = line.substring(0, line.length() - 2).split(" ");
-		
+
 		// Parse method part (GET\POST\OPTIONS\HEAD\TRACE)
 		switch (values[0].toUpperCase()) {
 		case "GET":
-			httpMethod = "GET";
+			this.httpMethod = "GET";
 			break;
 		case "POST":
-			httpMethod = "POST";
+			this.httpMethod = "POST";
 			break;
 		case "OPTIONS":
-			httpMethod = "OPTIONS";
+			this.httpMethod = "OPTIONS";
 			break;
 		case "HEAD":
-			httpMethod = "HEAD";
+			this.httpMethod = "HEAD";
 			break;
 		case "TRACE":
-			httpMethod = "TRACE";
+			this.httpMethod = "TRACE";
 		default:
 			throw new IllegalArgumentException(
 					"Error! Bad HTTP method! The server doesn't support the "
 							+ values[0] + " method.");
 		}
-		
-		//Parse URL
+
+		// Parse URL
 		if (!Security.checkUrl(values[1])) {
-			throw new SecurityException("The URL contains a security threat to the server"); 
+			throw new SecurityException(
+					"The URL contains a security threat to the server");
+		}
+		this.url = values[1];
+
+		// Parse HTTP Version
+		if (values[2].toUpperCase().equals("HTTP/1.0")) {
+			this.httpVersion = "HTTP/1.0";
+		} else if (values[2].toUpperCase().equals("HTTP/1.1")) {
+			this.httpVersion = "HTTP/1.1";
+		} else {
+			throw new IllegalArgumentException(
+					"Unsupported HTTP version. The server knows how to deal only with HTTP/1.0 and HTTP/1.1");
 		}
 
 	}
