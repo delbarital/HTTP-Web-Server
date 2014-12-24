@@ -17,7 +17,7 @@ public class HttpRequest {
 	private String httpVersion;
 
 	// Constructor
-	public HttpRequest(String[] rawRequest) {
+	public HttpRequest(String[] rawRequest) throws Exception {
 		this.headers = new HashMap<String, String>();
 
 		// Ignoring empty lines at the beginning of the message that only
@@ -40,7 +40,7 @@ public class HttpRequest {
 	 * Parse the first line of the HTTP request. The request structure is
 	 * something like this: GET /somedir/page.html HTTP/1.1
 	 */
-	private void parseStartLine(String line) {
+	private void parseStartLine(String line) throws Exception {
 		// TODO: test security for the startline
 
 		// split the first line (without the CRLF at the end) to three parts,
@@ -85,6 +85,10 @@ public class HttpRequest {
 			throw new IllegalArgumentException(
 					"Unsupported HTTP version. The server knows how to deal only with HTTP/1.0 and HTTP/1.1");
 		}
-
+		
+		// Required field validation 
+		if (httpMethod == null || url == null || httpVersion == null) {
+			throw new SecurityException("The start line of the HTTP request is not in a legal format!");
+		}
 	}
 }
