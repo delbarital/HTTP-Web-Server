@@ -23,22 +23,6 @@ public class ConfigFileReader {
 	private FileReader fileReader = null;
 	private BufferedReader bufferReader = null;
 
-	// Getters
-	public int getPort() {
-		return port;
-	}
-
-	public String getRoot() {
-		return root;
-	}
-
-	public String getDefaultPage() {
-		return defaultPage;
-	}
-
-	public int getMaxThreads() {
-		return maxThreads;
-	}
 
 	/*
 	 * Returns a HttpServerSettings object containing the read values
@@ -113,5 +97,23 @@ public class ConfigFileReader {
 			throw new SecurityException(
 					"Error! The config file is corrupted and not following the right config file structure!");
 		}
+	}
+	
+	
+	// Getters
+	public int getPort() {
+		return port;
+	}
+	
+	public String getRoot() {
+		return root;
+	}
+	
+	public String getDefaultPage() {
+		return defaultPage;
+	}
+	
+	public int getMaxThreads() {
+		return maxThreads;
 	}
 }
