@@ -59,7 +59,7 @@ public class ConfigFileReader {
 			// Parses the config line to an attribute and a value. Turn the
 			// attribute to lower cases and trim both of the strings to remove
 			// white spaces.
-			attribute = line.substring(0, equalsSignIndex - 1).toLowerCase()
+			attribute = line.substring(0, equalsSignIndex).toLowerCase()
 					.trim();
 			// Remember not to turn the value to lower cases. Filenames and
 			// paths are case sensitive.
