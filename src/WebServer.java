@@ -42,9 +42,13 @@ public final class WebServer
 		}
 	}
 	public static void main(String argv[]) throws Exception
-	{
-		
-		new WebServer(9090,10);//check config file implementation
+	{	
+		//read config file
+		ConfigFileReader currentConfigs = new ConfigFileReader("/config.ini");
+		//get server settings
+		HttpServerSettings currentSetting = currentConfigs.getHttpServerSettings();
+		//creating web server
+		new WebServer(currentSetting.getPort(),currentSetting.getMaxThreads());
     }
 }
 
