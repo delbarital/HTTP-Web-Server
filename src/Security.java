@@ -86,7 +86,7 @@ public class Security {
 		}
 
 		// Check if the file extension is longer than it should be
-		int fileExtensionIndex = defaultPage.indexOf(".");
+		int fileExtensionIndex = defaultPage.indexOf(".") + 1;
 		String fileExtension = defaultPage.substring(fileExtensionIndex);
 		if (fileExtension.length() > 4) {
 			return false;
