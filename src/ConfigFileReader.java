@@ -102,21 +102,4 @@ public class ConfigFileReader {
 		return new HttpServerSettings(this.port, this.root, this.defaultPage,
 				this.maxThreads);
 	}
-	
-	
-	public int getPort() {
-		return port;
-	}
-	
-	public String getRoot() {
-		return root;
-	}
-	
-	public String getDefaultPage() {
-		return defaultPage;
-	}
-	
-	public int getMaxThreads() {
-		return maxThreads;
-	}
 }
