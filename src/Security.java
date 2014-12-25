@@ -25,8 +25,8 @@ public class Security {
 			return false;
 		}
 		// The highest response code number which is described at the RFC is
-		// 505.
-		if (reponseNumber > 505) {
+		// 599
+		if (reponseNumber > 599) {
 			return false;
 		}
 		return true;
@@ -77,6 +77,9 @@ public class Security {
 			if (currentChar == 47) {
 				return false;
 			}
+			if (currentChar > 57 && currentChar < 65) {
+				return false;
+			}
 
 			// TODO: Change those checks to positive checks. It's more likely
 			// that the chars will be at the legal range
@@ -120,8 +123,8 @@ public class Security {
 		/*
 		 * TODO: This check can be done better. If we'll have time we should let
 		 * the URL contain ".." and return false only if it's really out of the
-		 * root directory.
-		 * Also, it would be good to check for other encodes of the double dots.
+		 * root directory. Also, it would be good to check for other encodes of
+		 * the double dots.
 		 */
 
 		if (url.contains("..")) {
@@ -147,7 +150,7 @@ public class Security {
 		String CRLF = "\r\n";
 		// If the given string contains CRLF sequence, and not at its end,
 		// return false.
-		if (str.substring(0, str.length() - 2).equals(CRLF)) {
+		if (str.substring(0, str.length() - 3).equals(CRLF)) {
 			return false;
 		}
 		return true;
