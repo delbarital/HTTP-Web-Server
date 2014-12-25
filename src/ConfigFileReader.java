@@ -24,13 +24,6 @@ public class ConfigFileReader {
 	private BufferedReader bufferReader = null;
 
 
-	/*
-	 * Returns a HttpServerSettings object containing the read values
-	 */
-	public HttpServerSettings getHttpServerSettings() {
-		return new HttpServerSettings(this.port, this.root, this.defaultPage,
-				this.maxThreads);
-	}
 
 	// Constructor
 	public ConfigFileReader(String settingsFilePath)
@@ -101,6 +94,16 @@ public class ConfigFileReader {
 	
 	
 	// Getters
+	
+	/*
+	 * Returns a HttpServerSettings object containing the read values
+	 */
+	public HttpServerSettings getHttpServerSettings() {
+		return new HttpServerSettings(this.port, this.root, this.defaultPage,
+				this.maxThreads);
+	}
+	
+	
 	public int getPort() {
 		return port;
 	}
