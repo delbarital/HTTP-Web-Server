@@ -51,6 +51,7 @@ public class Security {
 	}
 
 	public static boolean checkDefaultPage(String defaultPage) {
+		//TODO: this is a generic test for file names. Maybe we should change the name of it to checkFileName()
 		// If the default page is void or null return false.
 		if (defaultPage.equals("") || defaultPage == null) {
 			return false;
