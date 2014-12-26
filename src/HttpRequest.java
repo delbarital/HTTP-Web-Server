@@ -86,7 +86,7 @@ public class HttpRequest {
 											// in order to mask the reason.
 		}
 		if (!HttpRequestFields.isFieldLegal(header)) {
-			throw new HttpException(404);
+			throw new HttpException(400);
 		}
 		headers.put(parsedLine[0].toLowerCase(), parsedLine[1]);
 
