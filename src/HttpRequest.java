@@ -1,11 +1,6 @@
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.LinkedList;
 
 import javax.xml.ws.http.HTTPException;
-
-import sun.nio.cs.KOI8_R;
 
 /**
  * Represent a HTTP request from the client to this web server as described in
@@ -70,7 +65,6 @@ public class HttpRequest {
 					.get("content-length")).intValue();
 			
 		}
-
 	}
 
 	/**
