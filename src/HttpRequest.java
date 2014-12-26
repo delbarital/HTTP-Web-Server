@@ -18,9 +18,9 @@ public class HttpRequest {
 	// specify if the requested content is an image
 	private boolean isImage = false;
 	// contentLength based on the content-length header
-	private int contentLength = 0;
+	private int contentLength = -1;
 	// referer header
-	private String referer; 
+	private String referer;
 
 	// Constructor
 	public HttpRequest(String[] rawRequest) throws HttpException {
@@ -61,11 +61,11 @@ public class HttpRequest {
 
 		// parse the Content-Length value
 		if (headers.containsKey("content-length")) {
-			this.contentLength = Integer.getInteger(headers
-					.get("content-length")).intValue();
-			
+			this.contentLength = Integer.getInteger(
+					headers.get("content-length")).intValue();
+
 		}
-		
+
 		// parse the referer value
 		if (headers.containsKey("Referer")) {
 			this.referer = headers.get("refere");
@@ -124,7 +124,6 @@ public class HttpRequest {
 			// TODO: we should pass the allowed methods
 		}
 
-		// TODO: move the code below to getters functions
 		// Parse URL
 		if (!Security.checkUrl(values[1])) {
 			throw new HttpException(404); // URL forbidden. Status 404 is sent
@@ -146,4 +145,37 @@ public class HttpRequest {
 			throw new HttpException(400); // Bad Request
 		}
 	}
+
+	// getters
+	public String getUrl() {
+		return this.url;
+	}
+
+	public String getHttpMethod() {
+		return this.httpMethod;
+	}
+
+	public String getHttpVersion() {
+		return this.httpVersion;
+	}
+
+	/*
+	 * Return the content length based on the request. The int value -1 will be
+	 * returned if there was no Content-Length filed in the request.
+	 */
+	public int getContentLength() {
+		return this.contentLength;
+	}
+
+	public String getReferer() {
+		return this.referer;
+	}
+
+	/*
+	 * Return true if the requested content is an image and false otherwise
+	 */
+	public boolean isImage() {
+		return this.isImage;
+	}
+
 }
