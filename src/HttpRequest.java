@@ -20,7 +20,7 @@ public class HttpRequest {
 	// contentLength based on the content-length header
 	private int contentLength = 0;
 	// referer header
-	private String refere; 
+	private String referer; 
 
 	// Constructor
 	public HttpRequest(String[] rawRequest) throws HttpException {
@@ -68,7 +68,7 @@ public class HttpRequest {
 		
 		// parse the referer value
 		if (headers.containsKey("Referer")) {
-			this.refere = headers.get("refere");
+			this.referer = headers.get("refere");
 		}
 	}
 
@@ -124,6 +124,7 @@ public class HttpRequest {
 			// TODO: we should pass the allowed methods
 		}
 
+		// TODO: move the code below to getters functions
 		// Parse URL
 		if (!Security.checkUrl(values[1])) {
 			throw new HttpException(404); // URL forbidden. Status 404 is sent
