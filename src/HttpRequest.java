@@ -1,7 +1,5 @@
 import java.util.HashMap;
 
-import javax.xml.ws.http.HTTPException;
-
 /**
  * Represent a HTTP request from the client to this web server as described in
  * the RFC https://www.ietf.org/rfc/rfc2616.txt
@@ -20,7 +18,9 @@ public class HttpRequest {
 	// specify if the requested content is an image
 	private boolean isImage = false;
 	// contentLength based on the content-length header
-	private int contentLength;
+	private int contentLength = 0;
+	// referer header
+	private String refere; 
 
 	// Constructor
 	public HttpRequest(String[] rawRequest) throws HttpException {
@@ -64,6 +64,11 @@ public class HttpRequest {
 			this.contentLength = Integer.getInteger(headers
 					.get("content-length")).intValue();
 			
+		}
+		
+		// parse the referer value
+		if (headers.containsKey("Referer")) {
+			this.refere = headers.get("refere");
 		}
 	}
 
@@ -121,7 +126,7 @@ public class HttpRequest {
 
 		// Parse URL
 		if (!Security.checkUrl(values[1])) {
-			throw new HTTPException(404); // URL forbidden. Status 404 is sent
+			throw new HttpException(404); // URL forbidden. Status 404 is sent
 											// in order to mask the reason.
 		}
 		this.url = values[1];
