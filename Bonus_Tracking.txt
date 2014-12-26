@@ -1,2 +1,4 @@
 A list of things we added to the server.
-1. Advanced scans to deteced unautorized chatacters in the config.ini file.
+1. Advanced scans to detected unauthorized characters in the config.ini file.
+2. Protecting the server against URL CRLF injections
+3. Protecting the server against really large HTTP requests(above 100 lines)
