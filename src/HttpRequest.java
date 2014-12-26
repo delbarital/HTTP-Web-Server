@@ -24,6 +24,8 @@ public class HttpRequest {
 	private String httpVersion;
 	// specify if the requested content is an image
 	private boolean isImage = false;
+	// contentLength based on the content-length header
+	private int contentLength;
 
 	// Constructor
 	public HttpRequest(String[] rawRequest) throws HttpException {
@@ -57,9 +59,16 @@ public class HttpRequest {
 				url.length() - 1).toLowerCase();
 		for (int i = 0; i < knownImageExtensions.length; i++) {
 			if (requestedFileExtension.equals(knownImageExtensions[i])) {
-				isImage = true;
+				this.isImage = true;
 				break;
 			}
+		}
+
+		// parse the Content-Length value
+		if (headers.containsKey("content-length")) {
+			this.contentLength = Integer.getInteger(headers
+					.get("content-length")).intValue();
+			
 		}
 
 	}
@@ -77,7 +86,10 @@ public class HttpRequest {
 			throw new HttpException(404); // URL forbidden. Status 404 is sent
 											// in order to mask the reason.
 		}
-		headers.put(parsedLine[0], parsedLine[1]);
+		if (!HttpRequestFields.isFieldLegal(header)) {
+			throw new HttpException(404);
+		}
+		headers.put(parsedLine[0].toLowerCase(), parsedLine[1]);
 
 	}
 
