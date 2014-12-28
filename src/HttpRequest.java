@@ -152,7 +152,7 @@ public class HttpRequest {
 	}
 
 	/*
-	 * Returns this http method as a string (in upper case)
+	 * Returns this http method as a string (in upper case) 
 	 */
 	public String getHttpMethod() {
 		return this.httpMethod.toUpperCase();
