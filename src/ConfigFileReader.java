@@ -9,8 +9,6 @@ import java.nio.file.AccessDeniedException;
  * 
  * Reads and parses the config file.
  * 
- * @author Tal Delbari
- * 
  */
 public class ConfigFileReader {
 
