@@ -1,5 +1,7 @@
 import java.util.HashMap;
 
+import sun.security.ec.ECDSASignature.Raw;
+
 /**
  * Represent a HTTP request from the client to this web server as described in
  * the RFC https://www.ietf.org/rfc/rfc2616.txt
@@ -21,6 +23,8 @@ public class HttpRequest {
 	private int contentLength = -1;
 	// referer header
 	private String referer;
+	// content of message body
+	private HashMap<String, String> bodyParam;
 
 	// Constructor
 	public HttpRequest(String[] rawRequest) throws HttpException {
@@ -44,7 +48,13 @@ public class HttpRequest {
 		parseStartLine(rawRequest[firstRealContentLine]);
 
 		// Parse headers
+		int bodyLineNumber = -1;
 		for (int i = firstRealContentLine + 1; i < rawRequest.length; i++) {
+			// check if the message body started
+			if (rawRequest[i] == "\r\n") {
+				break;
+				bodyLineNumber = i++;
+			}
 			parseHeaderLine(rawRequest[i]);
 		}
 
@@ -70,6 +80,30 @@ public class HttpRequest {
 		if (headers.containsKey("Referer")) {
 			this.referer = headers.get("refere");
 		}
+
+		// parse body if there is one
+		if (bodyLineNumber != -1) {
+			for (int i = bodyLineNumber; i < rawRequest.length; i++) {
+				parseBody(rawRequest[i]);
+			}
+		}
+	}
+
+	private void parseBody(String messageBodyLine) {
+		String[] params = messageBodyLine.replaceAll("(\\r|\\n)", "")
+				.split("&");
+		String parameter[];
+		for (int i = 0; i < params.length; i++) {
+			parameter = params[i].split("=");
+			if (parameter.length != 2) {
+				throw new HttpException(404); // URL forbidden. Status 404 is
+												// sent in order to mask the
+												// reason.
+			}
+			bodyParam.put(parameter[0].toLowerCase(),
+					parameter[1].toLowerCase());
+		}
+
 	}
 
 	/**
@@ -155,7 +189,7 @@ public class HttpRequest {
 	}
 
 	/*
-	 * Returns this http method as a string (in upper case) 
+	 * Returns this http method as a string (in upper case)
 	 */
 	public String getHttpMethod() {
 		return this.httpMethod.toUpperCase();
@@ -175,6 +209,22 @@ public class HttpRequest {
 
 	public String getReferer() {
 		return this.referer;
+	}
+	
+	public HashMap<String, String> getAllBodyParams() {
+		return this.bodyParam;
+	}
+
+	
+	public String getParameterValue(String param) {
+		if (param == "" || param.isEmpty() || param == null) {
+			return "";
+		} else if (bodyParam.containsKey(param.toLowerCase())) {
+			return bodyParam.get(param);
+		} else {
+			return null;
+		}
+		
 	}
 
 	/*
