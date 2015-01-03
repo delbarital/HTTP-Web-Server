@@ -3,8 +3,6 @@ public class HttpException extends Exception {
 	HttpStatusCode statusCode;
 
 	public HttpException(int exceptionCode) {
-		// TODO: currently the exception message does not contains the error
-		// number. We should fix it
 		super();
 		statusCode = new HttpStatusCode(exceptionCode);
 	}
