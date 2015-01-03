@@ -26,40 +26,40 @@ public class HttpStatusCode {
 	}
 
 	// The response code number and the response explanation string.
-	private int responseCode;
+	private int statusCode;
 	private String responseMessageString = null;
 
 	/**
 	 * Check if the responseNum is a known HTTP response code. If it is not,
 	 * throw an IllegalArgumentException.
 	 * 
-	 * @param responseCode
+	 * @param statusCode
 	 * @throws IllegalArgumentException
 	 */
-	public HttpStatusCode(int responseCode) throws IllegalArgumentException {
+	public HttpStatusCode(int statusCode) throws IllegalArgumentException {
 		// Check if the repsponseNumber is legal, if not, throws
 		// IllegalArgumentException
-		if (!Security.checkResponseCode(responseCode)) {
+		if (!Security.checkResponseCode(statusCode)) {
 			throw new IllegalArgumentException("Bad HTTP response number.");
 		}
 
 		// If the exact code is known
-		if (RESPONSES.containsKey(new Integer(responseCode))) {
-			this.responseCode = responseCode;
+		if (RESPONSES.containsKey(new Integer(statusCode))) {
+			this.statusCode = statusCode;
 			this.responseMessageString = (String) RESPONSES.get(new Integer(
-					responseCode));
+					statusCode));
 		} else {
 			// If the exact code is unknown, set the class code of this code.
-			responseCode = getResponseCodeClass(responseCode);
-			this.responseCode = responseCode;
-			this.responseMessageString = (String) RESPONSES.get(new Integer(responseCode));
+			statusCode = getResponseCodeClass(statusCode);
+			this.statusCode = statusCode;
+			this.responseMessageString = (String) RESPONSES.get(new Integer(statusCode));
 		}
 	}
 
 	// Getters and Setters
 	
-	public int getResponseCode() {
-		return this.responseCode;
+	public int getStatusCode() {
+		return this.statusCode;
 	}
 	
 	public String getResponseMessageString() {
@@ -67,7 +67,7 @@ public class HttpStatusCode {
 	}
 	
 	public String toString() {
-		return this.responseCode + " " + this.responseMessageString;
+		return this.statusCode + " " + this.responseMessageString;
 	}
 	
 	// Private functions
@@ -83,8 +83,8 @@ public class HttpStatusCode {
 		if (Security.checkResponseCode(reponseCode)) {
 			throw new IllegalArgumentException();
 		}
-		responseCode /= 100;
-		responseCode *= 100;
+		statusCode /= 100;
+		statusCode *= 100;
 		
 		return reponseCode;
 	}

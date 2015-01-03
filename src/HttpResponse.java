@@ -4,5 +4,8 @@
  * 
  */
 public class HttpResponse {
-		
+
+	HttpStatusCode httpStatusCode;
+	String httpVersion;
+	
 }
