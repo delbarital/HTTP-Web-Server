@@ -85,7 +85,9 @@ public class HttpRequest {
 			throw new HttpException(404); // URL forbidden. Status 404 is sent
 											// in order to mask the reason.
 		}
-		if (!HttpRequestFields.isFieldLegal(header)) {
+		parsedLine[0] = parsedLine[0].trim();
+		parsedLine[1] = parsedLine[1].trim();
+		if (!HttpRequestFields.isFieldLegal(parsedLine[0])) {
 			throw new HttpException(400);
 		}
 		headers.put(parsedLine[0].toLowerCase(), parsedLine[1]);
