@@ -81,7 +81,7 @@ public class HttpRequest {
 	private void parseHeaderLine(String header) throws HttpException {
 
 		String[] parsedLine = header.replaceAll("(\\r|\\n)", "").split(":");
-		if (!Security.checkCRLFInjection(header) || parsedLine.length > 2) {
+		if (parsedLine.length > 2) {
 			throw new HttpException(404); // URL forbidden. Status 404 is sent
 											// in order to mask the reason.
 		}
